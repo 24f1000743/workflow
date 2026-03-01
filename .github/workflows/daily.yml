@@ -1,0 +1,26 @@
+name: Daily Auto Commit
+
+on:
+  schedule:
+    - cron: '12 4 * * *'
+  workflow_dispatch:
+
+jobs:
+  daily-job:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Commit Step - 24f1000743@ds.study.iitm.ac.in
+        run: |
+          echo "Update on $(date)" >> log.txt
+          git config --global user.name "github-actions"
+          git config --global user.email "action@github.com"
+          git add log.txt
+          git commit -m "Daily commit" || echo "No changes"
+          git push
